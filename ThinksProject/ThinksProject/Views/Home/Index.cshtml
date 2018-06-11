@@ -1,0 +1,18 @@
+﻿@{
+    ViewData["Title"] = "Главная страница";
+}
+
+<br /><br <br /><br /> <br /><br /><br /><br /><br /><br />
+@if (User.Identity.IsAuthenticated)
+{
+    <h2 class="text-center">
+        Добро пожаловать, навигация по навигационному бару
+    </h2>
+}
+
+else
+{
+    <h2 class="text-center">
+        Добро пожаловать, войдите или зарегистрируйтесь
+    </h2>
+}

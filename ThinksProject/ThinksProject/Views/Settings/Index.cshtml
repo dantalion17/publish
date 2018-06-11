@@ -1,0 +1,40 @@
+﻿@model ThinksProject.DataClasses.UserSetting
+
+@{
+    ViewBag.Title = "Настройки бота";
+    Layout = "_Layout";
+}
+<br/><br/>
+<h2 class="text-center">Настройки</h2>
+<div class="container-fluid">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <div class="container">
+        <br/>
+        <form method="post" name="form" asp-action="EditSendCount" asp-controller="Settings">
+            <br />
+            <div class="form-group">
+                <label>Сколько раз бот будет писать вам в сутки</label>
+                <select class="selectpicker" name="Count">
+                    @for (int i = 1; i <= 25; i++)
+                    {
+                        if (24 % i == 0)
+                        {
+                            if (i == Model.CountPostInDay)
+                            {
+                                <option name="@i" selected>@i</option>
+                                continue;
+                            }
+                            <option name="@i">@i</option>
+                        }
+                    }
+                </select>
+            </div>
+            <br />
+            <div class="form-group">
+                <input type="submit" value="Добавить" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>

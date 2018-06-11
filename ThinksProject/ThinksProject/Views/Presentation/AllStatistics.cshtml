@@ -1,0 +1,104 @@
+﻿@model System.Collections.Generic.List<ThinksProject.DataClasses.Post>
+
+@{
+    ViewBag.Title = "Архив очерков";
+    Layout = "_Layout";
+}
+
+<div class="container">
+
+    <br /><br />
+    <h2 class="text-center">
+        Ваши очерки
+    </h2>
+    <br />
+    <table class="table table-bordered table-dark">
+        <thead>
+            <div class="row">
+                <tr>
+                    <th class="col-md-9">Очерк</th>
+                    <th class="col-md-1">Время создания</th>
+                    <th class="col-md-1"></th>
+                    <th class="col-md-1"></th>
+                </tr>
+            </div>
+        </thead>
+        <tbody>
+            @foreach (var it in Model)
+            {
+                <div class="row">
+                    <tr>
+                        <td class="col-md-8" id="text_@it.Id">
+                         
+                             <text class="output_post" >@it.Text</text>
+                        </td>
+                        <td class="col-md-2">@it.DateCreate</td>
+                        <td class="col-md-1" id="td_@it.Id">
+                            <input type="button" class="btn-default" value="Редактировать" id="button_@it.Id" />
+                        </td>
+
+                    </tr>
+                </div>
+            }
+        </tbody>
+    </table>
+</div>
+
+
+<script>
+  
+    
+    $(".btn-default").click(function () {
+        var id = this.id;
+        var int_id = id.split('_')[1];
+        $('#' + "td_" + int_id)
+            .html("<input type='button' class='btn-success'  value='Сохранить' id='save_button_" + int_id + "' />");
+        var text_id = '#text_' + int_id;
+        var text = $(text_id).text();
+        var w = $(text_id).width();
+        var h = $(text_id).height();
+
+        $(text_id).html(
+            "<textarea type='text' class='form-control' wrap='soft' rows='" + h / 20 + "'>" + text + "</textarea > ");
+        $(text_id).css('height', h);
+        $(text_id).css('width', w);
+
+        $(".btn-success").click(function() {
+
+            var id = this.id;
+            var int_id = id.split('_')[2];
+            var text_id = '#text_' + int_id;
+            var text = $(text_id).text();
+            var data = {
+                "id": id,
+                "text": text
+            };
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("Edit", "Post")",
+                contentType: 'application/json',
+                data: JSON.stringify(data),
+                success: function(data) {
+                    $(text_id).html(data.text);
+                    alert(data.text);
+                    $('#' + "td_" + int_id)
+                        .html("<input type='button' class='btn-default'  value='Редактировать' id='button_" +
+                            int_id +
+                            "' />");
+                },
+                error: function() {
+                    alert("error");
+
+                }
+
+            });
+        });
+    });
+</script>
+
+
+<style>
+    .output_post {
+        white-space: pre-line;
+    }
+</style>
